@@ -1,13 +1,13 @@
 interface FormItemProps {
   /** 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）*/
-  menuType: number;
+  type: number;
   higherMenuOptions: Record<string, unknown>[];
   parentId: number;
   title: string;
   name: string;
   path: string;
   component: string;
-  rank: number;
+  sort: number;
   redirect: string;
   icon: string;
   extraIcon: string;

@@ -1,14 +1,11 @@
 import { defineStore } from "pinia";
 import {
   type cacheType,
-  store,
-  debounce,
-  ascending,
-  getKeyList,
-  filterTree,
   constantMenus,
-  filterNoPermissionTree,
-  formatFlatteningRoutes
+  debounce,
+  formatFlatteningRoutes,
+  getKeyList,
+  store
 } from "../utils";
 import { useMultiTagsStoreHook } from "./multiTags";
 
@@ -27,9 +24,10 @@ export const usePermissionStore = defineStore({
   actions: {
     /** 组装整体路由生成的菜单 */
     handleWholeMenus(routes: any[]) {
-      this.wholeMenus = filterNoPermissionTree(
-        filterTree(ascending(this.constantMenus.concat(routes)))
-      );
+      // this.wholeMenus = filterNoPermissionTree(
+      //   filterTree(ascending(this.constantMenus.concat(routes)))
+      // );
+      this.wholeMenus = routes;
       this.flatteningRoutes = formatFlatteningRoutes(
         this.constantMenus.concat(routes)
       );

@@ -49,15 +49,11 @@ export function useMenu() {
     },
     {
       label: "菜单类型",
-      prop: "menuType",
+      prop: "type",
       width: 100,
       cellRenderer: ({ row, props }) => (
-        <el-tag
-          size={props.size}
-          type={getMenuType(row.menuType)}
-          effect="plain"
-        >
-          {getMenuType(row.menuType, true)}
+        <el-tag size={props.size} type={getMenuType(row.type)} effect="plain">
+          {getMenuType(row.type, true)}
         </el-tag>
       )
     },
@@ -77,7 +73,7 @@ export function useMenu() {
     },
     {
       label: "排序",
-      prop: "rank",
+      prop: "sort",
       width: 100
     },
     {
@@ -136,14 +132,14 @@ export function useMenu() {
       title: `${title}菜单`,
       props: {
         formInline: {
-          menuType: row?.menuType ?? 0,
+          type: row?.type ?? 0,
           higherMenuOptions: formatHigherMenuOptions(cloneDeep(dataList.value)),
           parentId: row?.parentId ?? 0,
           title: row?.title ?? "",
           name: row?.name ?? "",
           path: row?.path ?? "",
           component: row?.component ?? "",
-          rank: row?.rank ?? 99,
+          sort: row?.sort ?? 99,
           redirect: row?.redirect ?? "",
           icon: row?.icon ?? "",
           extraIcon: row?.extraIcon ?? "",
