@@ -2,12 +2,13 @@ import editForm from "../form.vue";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
 import { getMenuList } from "@/api/system";
+import { deleteMenu, insertMenu, updateMenu } from "@/api/menu";
 import { transformI18n } from "@/plugins/i18n";
 import { addDialog } from "@/components/ReDialog";
-import { reactive, ref, onMounted, h } from "vue";
+import { h, onMounted, reactive, ref } from "vue";
 import type { FormItemProps } from "../utils/types";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import { cloneDeep, isAllEmpty, deviceDetection } from "@pureadmin/utils";
+import { cloneDeep, deviceDetection, isAllEmpty } from "@pureadmin/utils";
 
 export function useMenu() {
   const form = reactive({
@@ -69,7 +70,7 @@ export function useMenu() {
     },
     {
       label: "权限标识",
-      prop: "auths"
+      prop: "permission"
     },
     {
       label: "排序",
@@ -132,6 +133,7 @@ export function useMenu() {
       title: `${title}菜单`,
       props: {
         formInline: {
+          id: row?.id ?? "",
           type: row?.type ?? 0,
           higherMenuOptions: formatHigherMenuOptions(cloneDeep(dataList.value)),
           parentId: row?.parentId ?? 0,
@@ -146,14 +148,18 @@ export function useMenu() {
           enterTransition: row?.enterTransition ?? "",
           leaveTransition: row?.leaveTransition ?? "",
           activePath: row?.activePath ?? "",
-          auths: row?.auths ?? "",
+          permission: row?.permission ?? "",
           frameSrc: row?.frameSrc ?? "",
           frameLoading: row?.frameLoading ?? true,
           keepAlive: row?.keepAlive ?? false,
           hiddenTag: row?.hiddenTag ?? false,
           fixedTag: row?.fixedTag ?? false,
           showLink: row?.showLink ?? true,
-          showParent: row?.showParent ?? false
+          showParent: row?.showParent ?? false,
+          createTime: row?.createTime ?? "",
+          createUser: row?.createUser ?? "",
+          updateTime: row?.updateTime ?? "",
+          updateUser: row?.updateUser ?? ""
         }
       },
       width: "45%",
@@ -165,16 +171,44 @@ export function useMenu() {
       beforeSure: (done, { options }) => {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
+
         function chores() {
-          message(
-            `您${title}了菜单名称为${transformI18n(curData.title)}的这条数据`,
-            {
-              type: "success"
-            }
-          );
+          if (title === "新增") {
+            insertMenu(curData).then(res => {
+              if (res.success) {
+                message(
+                  `您${title}了菜单名称为${transformI18n(curData.title)}的这条数据`,
+                  {
+                    type: "success"
+                  }
+                );
+                onSearch(); // 刷新表格数据
+              } else {
+                message(res.message, {
+                  type: "error"
+                });
+              }
+            });
+          } else {
+            updateMenu(curData).then(res => {
+              if (res.success) {
+                message(
+                  `您${title}了菜单名称为${transformI18n(curData.title)}的这条数据`,
+                  {
+                    type: "success"
+                  }
+                );
+                onSearch(); // 刷新表格数据
+              } else {
+                message(res.message, {
+                  type: "error"
+                });
+              }
+            });
+          }
           done(); // 关闭弹框
-          onSearch(); // 刷新表格数据
         }
+
         FormRef.validate(valid => {
           if (valid) {
             console.log("curData", curData);
@@ -193,9 +227,18 @@ export function useMenu() {
   }
 
   function handleDelete(row) {
-    message(`您删除了菜单名称为${transformI18n(row.title)}的这条数据`, {
-      type: "success"
+    deleteMenu(row.id).then(res => {
+      if (res.success) {
+        message(`您删除了菜单名称为${transformI18n(row.title)}的这条数据`, {
+          type: "success"
+        });
+      } else {
+        message(res.message, {
+          type: "error"
+        });
+      }
     });
+
     onSearch();
   }
 

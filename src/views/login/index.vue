@@ -72,15 +72,19 @@ const onLogin = async (formEl: FormInstance | undefined) => {
         .then(res => {
           if (res.success) {
             // 获取后端路由
-            return initRouter().then(() => {
-              disabled.value = true;
-              router
-                .push(getTopMenu(true).path)
-                .then(() => {
-                  message(t("login.pureLoginSuccess"), { type: "success" });
-                })
-                .finally(() => (disabled.value = false));
-            });
+            return initRouter()
+              .then(() => {
+                disabled.value = true;
+                router
+                  .push(getTopMenu(true).path)
+                  .then(() => {
+                    message(t("login.pureLoginSuccess"), { type: "success" });
+                  })
+                  .finally(() => (disabled.value = false));
+              })
+              .catch(err => {
+                console.log(err);
+              });
           } else {
             message(t("login.pureLoginFail"), { type: "error" });
           }

@@ -19,6 +19,7 @@ import {
 
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
+    id: null,
     type: 0,
     higherMenuOptions: [],
     parentId: 0,
@@ -33,14 +34,18 @@ const props = withDefaults(defineProps<FormProps>(), {
     enterTransition: "",
     leaveTransition: "",
     activePath: "",
-    auths: "",
+    permission: "",
     frameSrc: "",
     frameLoading: true,
     keepAlive: false,
     hiddenTag: false,
     fixedTag: false,
     showLink: true,
-    showParent: false
+    showParent: false,
+    createTime: null,
+    createUser: "",
+    updateTime: null,
+    updateUser: ""
   })
 });
 
@@ -196,7 +201,7 @@ defineExpose({ getRef });
         <!-- 按钮级别权限设置 -->
         <el-form-item label="权限标识" prop="auths">
           <el-input
-            v-model="newFormInline.auths"
+            v-model="newFormInline.permission"
             clearable
             placeholder="请输入权限标识"
           />

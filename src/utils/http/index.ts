@@ -13,6 +13,7 @@ import { stringify } from "qs";
 import NProgress from "../progress";
 import { getToken, formatToken } from "@/utils/auth";
 import { useUserStoreHook } from "@/store/modules/user";
+import { message } from "@/utils/message";
 
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
@@ -28,7 +29,12 @@ const defaultConfig: AxiosRequestConfig = {
     serialize: stringify as unknown as CustomParamsSerializer
   }
 };
-
+type Result<T = any> = {
+  success: boolean;
+  data: T;
+  status: number;
+  message: string;
+};
 class PureHttp {
   constructor() {
     this.httpInterceptorsRequest();
@@ -136,6 +142,15 @@ class PureHttp {
         return response.data;
       },
       (error: PureHttpError) => {
+        const status = error.response.data.status;
+        if (status == 401) {
+          useUserStoreHook().logOut();
+        } else {
+          message(error.response.data.message, {
+            type: "error"
+          });
+        }
+
         const $error = error;
         $error.isCancelRequest = Axios.isCancel($error);
         // 关闭进度条动画
