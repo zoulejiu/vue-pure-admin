@@ -29,12 +29,6 @@ const defaultConfig: AxiosRequestConfig = {
     serialize: stringify as unknown as CustomParamsSerializer
   }
 };
-type Result<T = any> = {
-  success: boolean;
-  data: T;
-  status: number;
-  message: string;
-};
 class PureHttp {
   constructor() {
     this.httpInterceptorsRequest();
