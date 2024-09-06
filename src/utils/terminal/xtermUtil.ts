@@ -8,8 +8,14 @@ import { WebLinksAddon } from "@xterm/addon-web-links";
 import { SearchAddon } from "@xterm/addon-search";
 /** Unicode11Addon插件支持Unicode 11 的特性，包括新的 emoji、符号和文字修饰符。 */
 import { Unicode11Addon } from "@xterm/addon-unicode11";
+import SockJS from "sockjs-client/dist/sockjs.js";
+import { type CompatClient, type IMessage, Stomp } from "@stomp/stompjs";
+import "@xterm/xterm/css/xterm.css";
+
 // 导入ws连接地址
-let baseWebSocketURL = "ws://localhost:8080/ssh";
+
+let baseWebSocketURL = "http://localhost:8080/platform-admin/ws";
+// let baseWebSocketURL = "ws://localhost:8088/ws";
 
 export interface WsOptions {
   /** 连接方式 */
@@ -17,6 +23,12 @@ export interface WsOptions {
   //连接类型
   type: string;
 }
+
+export type WsParam = {
+  id: number;
+  command: string;
+  type: string;
+};
 
 export class TermClient {
   /** 终端所挂载的dom元素 */
@@ -36,7 +48,7 @@ export class TermClient {
   /** 终端输入的文字 */
   rowInputStr: string;
   /** WebSocket实例 */
-  webSocket: WebSocket;
+  webSocket: CompatClient;
   /**  WebSocket状态标识 */
   wsStatus: string;
   /** WebSocket 发送的消息 */
@@ -93,7 +105,8 @@ export class TermClient {
     this.rowCommand = "";
     this.rowPrefixStr = "";
     this.rowInputStr = "";
-    this.webSocket = new WebSocket(baseWebSocketURL);
+    const socket = new SockJS(baseWebSocketURL);
+    this.webSocket = Stomp.over(socket);
     this.onWsConnectSuccess = onWsConnectSuccess;
     this.wsStatus = "";
     this.wsSendMsg = "";
@@ -141,9 +154,7 @@ export class TermClient {
     resizeObserver.observe(this.terminalEle);
 
     // 换行并输入起始符“$”
-    terminal.write(`欢迎使用SSH\r\n`);
     this.fitAddon.fit();
-
     // 实时数据
     terminal.onData((data: string) => {
       this.handleTerminalInput(data);
@@ -180,9 +191,10 @@ export class TermClient {
    * 重新连接ws
    */
   reconnectWebsocket() {
-    this.webSocket.close();
+    this.webSocket.disconnect();
     this.terminal.write(`\r\n`);
-    this.webSocket = new WebSocket(baseWebSocketURL);
+    const socket = new SockJS(baseWebSocketURL);
+    this.webSocket = Stomp.over(socket);
     this.connectWebsocket();
   }
 
@@ -190,41 +202,51 @@ export class TermClient {
    * 建立ws连接
    */
   connectWebsocket() {
-    this.webSocket.onopen = () => {
-      // console.log("ws连接成功");
+    this.webSocket.connect({}, () => {
+      console.log("ws连接成功");
       this.onWsConnectSuccess && this.onWsConnectSuccess();
+      this.terminal.write("connection  success" + "\r\n");
       this.wsStatus = "init";
-      this.webSocket.send(JSON.stringify(this.wsOptions));
-    };
-
-    this.webSocket.onmessage = (data: MessageEvent) => {
+      let wsParam: WsParam = {
+        id: this.wsOptions.id,
+        type: this.wsOptions.type,
+        command: null
+      };
+      this.webSocket.subscribe("/topic/output", message => {
+        // this.terminal.write(message.body + "\r\n");
+        rev(message);
+      });
+      this.sendInit(wsParam);
+    });
+    const rev = (data: IMessage) => {
+      console.log(data.body);
       if (this.wsStatus === "init") {
         // ws连接初始化的响应消息
-        this.rowPrefixStr = data.data;
-        this.terminal.write(data.data);
+        this.rowPrefixStr = data.body;
+        this.terminal.write(data.body);
       } else if (this.wsStatus === "reqStart") {
         this.wsStatus = "resIng";
 
         if (this.isViMode) {
           // vi模式
-          this.handleViModeMsg(data.data);
+          this.handleViModeMsg(data.body);
           return;
         }
 
         if (this.isEditorSave) {
-          this.handleEditorSaveMsg(data.data);
+          this.handleEditorSaveMsg(data.body);
         }
 
         // 发完命令后第一条响应：去除开头命令字符串
-        if (data.data.startsWith(this.rowCommand)) {
-          let tempStr = data.data;
+        if (data.body.startsWith(this.rowCommand)) {
+          let tempStr = data.body;
           tempStr = tempStr.replace(
             new RegExp(`(^${this.rowCommand})`, "gm"),
             ""
           );
 
           // 末尾有前缀，则换行处理
-          if (data.data.includes(this.rowPrefixStr.trim())) {
+          if (data.body.includes(this.rowPrefixStr.trim())) {
             tempStr = tempStr.replace(
               new RegExp(`(^${this.rowPrefixStr})`, "gm"),
               "\n\r"
@@ -241,9 +263,9 @@ export class TermClient {
       } else if (this.wsStatus === "resIng") {
         if (this.isViMode) {
           // vi模式
-          this.handleViModeMsg(data.data);
+          this.handleViModeMsg(data.body);
         } else {
-          this.terminal.write(`${data.data}`);
+          this.terminal.write(`${data.body}`);
         }
       }
     };
@@ -328,16 +350,15 @@ export class TermClient {
     // let command = "echo '" + editorStr + "' >  " + this.editFileName;
     this.rowCommand = command;
 
-    this.wsStatus = "reqStart";
+    this.wsStatus = "resIng";
     this.isEditorSave = true;
 
-    this.webSocket.send(
-      JSON.stringify({
-        id: this.wsOptions.id,
-        type: this.wsOptions.type,
-        command: command
-      })
-    );
+    let wsParam: WsParam = {
+      id: this.wsOptions.id,
+      type: this.wsOptions.type,
+      command: command
+    };
+    this.send(wsParam);
   }
 
   /**
@@ -351,15 +372,12 @@ export class TermClient {
       this.onCloseEditor && this.onCloseEditor();
 
       this.isEditorSave = false;
-
-      this.webSocket.send(
-        JSON.stringify({
-          id: this.wsOptions.id,
-          type: this.wsOptions.type,
-          command: "\r"
-        })
-      );
-
+      let wsParam: WsParam = {
+        id: this.wsOptions.id,
+        type: this.wsOptions.type,
+        command: "\r"
+      };
+      this.send(wsParam);
       this.terminal.focus();
     } else {
       // 保存失败
@@ -418,12 +436,13 @@ export class TermClient {
       this.rowInputStr += e.key;
 
       this.wsStatus = "reqStart";
-      this.webSocket.send(
-        JSON.stringify({
-          operate: "command",
-          command: this.rowInputStr
-        })
-      );
+
+      let wsParam: WsParam = {
+        id: this.wsOptions.id,
+        type: this.wsOptions.type,
+        command: this.rowInputStr
+      };
+      this.send(wsParam);
       // 清空当前行
       this.rowInputStr = "";
     } else if (ev.key === "Space" || ev.code === "Space") {
@@ -432,15 +451,22 @@ export class TermClient {
     } else if (ev.ctrlKey && ev.key === "c") {
       // Ctrl+C
       this.rowInputStr += e.key;
-      this.webSocket.send(
-        JSON.stringify({
-          operate: "command",
-          command: this.rowInputStr
-        })
-      );
-
+      let wsParam: WsParam = {
+        id: this.wsOptions.id,
+        type: this.wsOptions.type,
+        command: "Ctrl + C"
+      };
+      this.send(wsParam);
       // 清空当前行
       this.rowInputStr = "";
     }
+  }
+
+  sendInit(wsParam: WsParam) {
+    this.webSocket.send("/app/terminal/init", {}, JSON.stringify(wsParam));
+  }
+
+  send(wsParam: WsParam) {
+    this.webSocket.send("/app/terminal/exec", {}, JSON.stringify(wsParam));
   }
 }

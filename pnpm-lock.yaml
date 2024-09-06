@@ -22,7 +22,7 @@ importers:
         version: 1.2.27
       '@logicflow/extension':
         specifier: ^1.2.27
-        version: 1.2.27(canvas@2.11.2)
+        version: 1.2.27(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10)
       '@pureadmin/descriptions':
         specifier: ^1.2.1
         version: 1.2.1(echarts@5.5.1)(element-plus@2.7.8(vue@3.4.34(typescript@5.5.4)))(typescript@5.5.4)
@@ -97,7 +97,7 @@ importers:
         version: 3.0.1
       mqtt:
         specifier: 4.3.7
-        version: 4.3.7
+        version: 4.3.7(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       nprogress:
         specifier: ^0.2.0
         version: 0.2.0
@@ -252,6 +252,9 @@ importers:
       '@pureadmin/theme':
         specifier: ^3.2.0
         version: 3.2.0
+      '@stomp/stompjs':
+        specifier: ^7.0.0
+        version: 7.0.0
       '@types/dagre':
         specifier: ^0.7.52
         version: 0.7.52
@@ -374,7 +377,10 @@ importers:
         version: 1.77.8
       socket.io-client:
         specifier: ^4.7.5
-        version: 4.7.5
+        version: 4.7.5(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      sockjs-client:
+        specifier: ^1.6.1
+        version: 1.6.1
       stylelint:
         specifier: ^16.7.0
         version: 16.7.0(typescript@5.5.4)
@@ -1503,6 +1509,9 @@ packages:
   '@socket.io/component-emitter@3.1.2':
     resolution: {integrity: sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==}
 
+  '@stomp/stompjs@7.0.0':
+    resolution: {integrity: sha512-fGdq4wPDnSV/KyOsjq4P+zLc8MFWC3lMmP5FBgLWKPJTYcuCbAIrnRGjB7q2jHZdYCOD5vxLuFoKIYLy5/u8Pw==}
+
   '@sxzz/popperjs-es@2.11.7':
     resolution: {integrity: sha512-Ccy0NlLkzr0Ex2FKvh2X+OyERHXJ88XJ1MXtsI9y9fGexlaXaVTPzBCRBwIxFkORuOb+uBqeu+RqnpgYTEZRUQ==}
 
@@ -2161,6 +2170,10 @@ packages:
   buffer@5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
 
+  bufferutil@4.0.8:
+    resolution: {integrity: sha512-4T53u4PdgsXqKaIctwF8ifXlRTTmEPJ8iEPWFdGZvcf7sbwYo6FKFEX9eNNAnzFZ7EzJAQ3CJeOtCRA4rDp7Pw==}
+    engines: {node: '>=6.14.2'}
+
   bundle-import@0.0.1:
     resolution: {integrity: sha512-L0z0iPX7t7ff5eZsK7oMEH+Ly2lzJczFKPHwrta6X8SF64a20R3wOrAOYK1MzHZVaWWugg9qlSTVfVwqvQJ2dw==}
 
@@ -2594,6 +2607,14 @@ packages:
   de-indent@1.0.2:
     resolution: {integrity: sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==}
 
+  debug@3.2.7:
+    resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
   debug@4.3.6:
     resolution: {integrity: sha512-O/09Bd4Z1fBrU4VzkhFqVgpPzaGbw6Sm9FEkBT1A/YBXQFGuuSxa1dN2nxgxS34JmKXqYx8CZAwEVoJFImUXIg==}
     engines: {node: '>=6.0'}
@@ -2946,6 +2967,10 @@ packages:
   eventemitter3@5.0.1:
     resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
 
+  eventsource@2.0.2:
+    resolution: {integrity: sha512-IzUmBGPR3+oUG9dUeXynyNmf91/3zUSJg1lCktzKw47OXuhco54U3r9B7O4XX+Rb1Itm9OZ2b0RkTs10bICOxA==}
+    engines: {node: '>=12.0.0'}
+
   execa@5.1.1:
     resolution: {integrity: sha512-8uSpZZocAZRBAPIEINJj3Lo9HyGitllczc27Eh5YYojjMFMn8yHMDMaUHE2Jqfq05D/wucwI4JGURyXt1vchyg==}
     engines: {node: '>=10'}
@@ -2990,6 +3015,10 @@ packages:
 
   fastq@1.17.1:
     resolution: {integrity: sha512-sRVD3lWVIXWg6By68ZN7vho9a1pQcN/WBFaAAsDDFzlJjvoGx0P8z7V1t72grFJfJhu3YPZBuu25f7Kaw2jN1w==}
+
+  faye-websocket@0.11.4:
+    resolution: {integrity: sha512-CzbClwlXAuiRQAlUyfqPgvPoNKTckTPGfwZV4ZdAhVcP2lh9KUxJg2b5GkE7XbjKQ3YJnQ9z6D9ntLAlB+tP8g==}
+    engines: {node: '>=0.8.0'}
 
   fb-watchman@2.0.2:
     resolution: {integrity: sha512-p5161BqbuCaSnB8jIbzQHOlpgsPmK5rJVDfDKO91Axs5NC1uu3HRQm6wt9cd9/+GtQQIO53JdGXXoyDpTAsgYA==}
@@ -3253,6 +3282,9 @@ packages:
 
   htmlparser2@8.0.2:
     resolution: {integrity: sha512-GYdjWKDkbRLkZ5geuHs5NY1puJ+PXwP7+fHPRz06Eirsb9ugf6d8kkXav6ADhcODhFFPMIXyxkxSuMf3D6NCFA==}
+
+  http-parser-js@0.5.8:
+    resolution: {integrity: sha512-SGeBX54F94Wgu5RH3X5jsDtf4eHyRogWX1XGT3b4HuW3tQPM4AaBzoUji/4AAJNXCEOWZ5O0DgZmJw1947gD5Q==}
 
   http-proxy-agent@4.0.1:
     resolution: {integrity: sha512-k0zdNgqWTGA6aeIRVpvfVob4fL52dTfaehylg0Y4UvSySvOq/Y+BOyPrgpUrA7HylqvU8vIZGsRuXmspskV0Tg==}
@@ -3999,6 +4031,10 @@ packages:
     peerDependenciesMeta:
       encoding:
         optional: true
+
+  node-gyp-build@4.8.2:
+    resolution: {integrity: sha512-IRUxE4BVsHWXkV/SFOut4qTlagw2aM8T5/vnTsmrHJvVoKueJHRc/JaFND7QDDc61kLYUJ6qlZM3sqTSyx2dTw==}
+    hasBin: true
 
   node-int64@0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
@@ -4934,6 +4970,10 @@ packages:
     resolution: {integrity: sha512-/GbIKmo8ioc+NIWIhwdecY0ge+qVBSMdgxGygevmdHj24bsfgtCmcUUcQ5ZzcylGFHsN3k4HB4Cgkl96KVnuew==}
     engines: {node: '>=10.0.0'}
 
+  sockjs-client@1.6.1:
+    resolution: {integrity: sha512-2g0tjOR+fRs0amxENLi/q5TiJTqY+WXFOzb5UwXndlK6TO3U/mirZznpx6w34HVMoc3g7cY24yC/ZMIYnDlfkw==}
+    engines: {node: '>=12'}
+
   sortablejs@1.14.0:
     resolution: {integrity: sha512-pBXvQCs5/33fdN1/39pPL0NZF20LeRbLQ5jtnheIPN9JQAaufGjKdWduZn4U7wCtVuzKhmRkI0DFYHYRbB2H1w==}
 
@@ -5368,6 +5408,10 @@ packages:
   url-parse@1.5.10:
     resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
 
+  utf-8-validate@5.0.10:
+    resolution: {integrity: sha512-Z6czzLq4u8fPOyx7TU6X3dvUZVvoJmxSQ+IcrlmagKhilxlhZgxPK6C5Jqbkw1IDUmFTM+cz9QDnnLTwDz/2gQ==}
+    engines: {node: '>=6.14.2'}
+
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -5657,6 +5701,14 @@ packages:
 
   webpack-virtual-modules@0.6.2:
     resolution: {integrity: sha512-66/V2i5hQanC51vBQKPH4aI8NMAcBW59FVBs+rC7eGHupMyfn34q7rZIE+ETlJ+XTevqfUhVVBgSUNSW2flEUQ==}
+
+  websocket-driver@0.7.4:
+    resolution: {integrity: sha512-b17KeDIQVjvb0ssuSDF2cYXSg2iztliJ4B9WdsuB6J952qCPKmnVq4DyW5motImXHDC1cBT/1UezrJVsKw5zjg==}
+    engines: {node: '>=0.8.0'}
+
+  websocket-extensions@0.1.4:
+    resolution: {integrity: sha512-OqedPIGOfsDlo31UNwYbCFMSaO9m9G/0faIHj5/dZFDMFqPTcx6UwqyOy3COEaEOg/9VsGIpdqn62W5KhoKSpg==}
+    engines: {node: '>=0.8.0'}
 
   whatwg-encoding@1.0.5:
     resolution: {integrity: sha512-b5lim54JOPN9HtzvK9HFXvBma/rnfFeqsic0hSpjtDbVxR3dJKLc+KB4V6GgiGOvl7CY/KNh8rxSo9DKQrnUEw==}
@@ -6686,7 +6738,7 @@ snapshots:
       jest-util: 27.5.1
       slash: 3.0.0
 
-  '@jest/core@27.5.1(canvas@2.11.2)':
+  '@jest/core@27.5.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10)':
     dependencies:
       '@jest/console': 27.5.1
       '@jest/reporters': 27.5.1
@@ -6700,13 +6752,13 @@ snapshots:
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 27.5.1
-      jest-config: 27.5.1(canvas@2.11.2)
+      jest-config: 27.5.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10)
       jest-haste-map: 27.5.1
       jest-message-util: 27.5.1
       jest-regex-util: 27.5.1
       jest-resolve: 27.5.1
       jest-resolve-dependencies: 27.5.1
-      jest-runner: 27.5.1(canvas@2.11.2)
+      jest-runner: 27.5.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10)
       jest-runtime: 27.5.1
       jest-snapshot: 27.5.1
       jest-util: 27.5.1
@@ -6893,10 +6945,10 @@ snapshots:
       mousetrap: 1.6.5
       preact: 10.23.1
 
-  '@logicflow/extension@1.2.27(canvas@2.11.2)':
+  '@logicflow/extension@1.2.27(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10)':
     dependencies:
       '@logicflow/core': 1.2.27
-      jest: 27.5.1(canvas@2.11.2)
+      jest: 27.5.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10)
       lodash-es: 4.17.21
       preact: 10.23.1
     transitivePeerDependencies:
@@ -7085,6 +7137,8 @@ snapshots:
       '@sinonjs/commons': 1.8.6
 
   '@socket.io/component-emitter@3.1.2': {}
+
+  '@stomp/stompjs@7.0.0': {}
 
   '@sxzz/popperjs-es@2.11.7': {}
 
@@ -7906,6 +7960,11 @@ snapshots:
       base64-js: 1.5.1
       ieee754: 1.2.1
 
+  bufferutil@4.0.8:
+    dependencies:
+      node-gyp-build: 4.8.2
+    optional: true
+
   bundle-import@0.0.1:
     dependencies:
       get-tsconfig: 4.7.6
@@ -8406,6 +8465,10 @@ snapshots:
 
   de-indent@1.0.2: {}
 
+  debug@3.2.7:
+    dependencies:
+      ms: 2.1.2
+
   debug@4.3.6:
     dependencies:
       ms: 2.1.2
@@ -8595,12 +8658,12 @@ snapshots:
     dependencies:
       once: 1.4.0
 
-  engine.io-client@6.5.4:
+  engine.io-client@6.5.4(bufferutil@4.0.8)(utf-8-validate@5.0.10):
     dependencies:
       '@socket.io/component-emitter': 3.1.2
       debug: 4.3.6
       engine.io-parser: 5.2.3
-      ws: 8.17.1
+      ws: 8.17.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       xmlhttprequest-ssl: 2.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -8850,6 +8913,8 @@ snapshots:
 
   eventemitter3@5.0.1: {}
 
+  eventsource@2.0.2: {}
+
   execa@5.1.1:
     dependencies:
       cross-spawn: 7.0.3
@@ -8910,6 +8975,10 @@ snapshots:
   fastq@1.17.1:
     dependencies:
       reusify: 1.0.4
+
+  faye-websocket@0.11.4:
+    dependencies:
+      websocket-driver: 0.7.4
 
   fb-watchman@2.0.2:
     dependencies:
@@ -9198,6 +9267,8 @@ snapshots:
       domutils: 3.1.0
       entities: 4.5.0
 
+  http-parser-js@0.5.8: {}
+
   http-proxy-agent@4.0.1:
     dependencies:
       '@tootallnate/once': 1.1.2
@@ -9404,16 +9475,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  jest-cli@27.5.1(canvas@2.11.2):
+  jest-cli@27.5.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10):
     dependencies:
-      '@jest/core': 27.5.1(canvas@2.11.2)
+      '@jest/core': 27.5.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10)
       '@jest/test-result': 27.5.1
       '@jest/types': 27.5.1
       chalk: 4.1.2
       exit: 0.1.2
       graceful-fs: 4.2.11
       import-local: 3.2.0
-      jest-config: 27.5.1(canvas@2.11.2)
+      jest-config: 27.5.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10)
       jest-util: 27.5.1
       jest-validate: 27.5.1
       prompts: 2.4.2
@@ -9425,7 +9496,7 @@ snapshots:
       - ts-node
       - utf-8-validate
 
-  jest-config@27.5.1(canvas@2.11.2):
+  jest-config@27.5.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10):
     dependencies:
       '@babel/core': 7.24.9
       '@jest/test-sequencer': 27.5.1
@@ -9437,13 +9508,13 @@ snapshots:
       glob: 7.2.3
       graceful-fs: 4.2.11
       jest-circus: 27.5.1
-      jest-environment-jsdom: 27.5.1(canvas@2.11.2)
+      jest-environment-jsdom: 27.5.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10)
       jest-environment-node: 27.5.1
       jest-get-type: 27.5.1
       jest-jasmine2: 27.5.1
       jest-regex-util: 27.5.1
       jest-resolve: 27.5.1
-      jest-runner: 27.5.1(canvas@2.11.2)
+      jest-runner: 27.5.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10)
       jest-util: 27.5.1
       jest-validate: 27.5.1
       micromatch: 4.0.7
@@ -9476,7 +9547,7 @@ snapshots:
       jest-util: 27.5.1
       pretty-format: 27.5.1
 
-  jest-environment-jsdom@27.5.1(canvas@2.11.2):
+  jest-environment-jsdom@27.5.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10):
     dependencies:
       '@jest/environment': 27.5.1
       '@jest/fake-timers': 27.5.1
@@ -9484,7 +9555,7 @@ snapshots:
       '@types/node': 20.14.13
       jest-mock: 27.5.1
       jest-util: 27.5.1
-      jsdom: 16.7.0(canvas@2.11.2)
+      jsdom: 16.7.0(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - bufferutil
       - canvas
@@ -9597,7 +9668,7 @@ snapshots:
       resolve.exports: 1.1.1
       slash: 3.0.0
 
-  jest-runner@27.5.1(canvas@2.11.2):
+  jest-runner@27.5.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10):
     dependencies:
       '@jest/console': 27.5.1
       '@jest/environment': 27.5.1
@@ -9609,7 +9680,7 @@ snapshots:
       emittery: 0.8.1
       graceful-fs: 4.2.11
       jest-docblock: 27.5.1
-      jest-environment-jsdom: 27.5.1(canvas@2.11.2)
+      jest-environment-jsdom: 27.5.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10)
       jest-environment-node: 27.5.1
       jest-haste-map: 27.5.1
       jest-leak-detector: 27.5.1
@@ -9719,11 +9790,11 @@ snapshots:
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
-  jest@27.5.1(canvas@2.11.2):
+  jest@27.5.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10):
     dependencies:
-      '@jest/core': 27.5.1(canvas@2.11.2)
+      '@jest/core': 27.5.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10)
       import-local: 3.2.0
-      jest-cli: 27.5.1(canvas@2.11.2)
+      jest-cli: 27.5.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - bufferutil
       - canvas
@@ -9752,7 +9823,7 @@ snapshots:
 
   jsbarcode@3.11.6: {}
 
-  jsdom@16.7.0(canvas@2.11.2):
+  jsdom@16.7.0(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10):
     dependencies:
       abab: 2.0.6
       acorn: 8.12.1
@@ -9779,7 +9850,7 @@ snapshots:
       whatwg-encoding: 1.0.5
       whatwg-mimetype: 2.3.0
       whatwg-url: 8.7.0
-      ws: 7.5.10
+      ws: 7.5.10(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       xml-name-validator: 3.0.0
     optionalDependencies:
       canvas: 2.11.2
@@ -10079,7 +10150,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  mqtt@4.3.7:
+  mqtt@4.3.7(bufferutil@4.0.8)(utf-8-validate@5.0.10):
     dependencies:
       commist: 1.1.0
       concat-stream: 2.0.0
@@ -10096,7 +10167,7 @@ snapshots:
       reinterval: 1.1.0
       rfdc: 1.4.1
       split2: 3.2.2
-      ws: 7.5.10
+      ws: 7.5.10(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       xtend: 4.0.2
     transitivePeerDependencies:
       - bufferutil
@@ -10133,6 +10204,9 @@ snapshots:
   node-fetch@2.7.0:
     dependencies:
       whatwg-url: 5.0.0
+    optional: true
+
+  node-gyp-build@4.8.2:
     optional: true
 
   node-int64@0.4.0: {}
@@ -11008,11 +11082,11 @@ snapshots:
 
   snabbdom@3.6.2: {}
 
-  socket.io-client@4.7.5:
+  socket.io-client@4.7.5(bufferutil@4.0.8)(utf-8-validate@5.0.10):
     dependencies:
       '@socket.io/component-emitter': 3.1.2
       debug: 4.3.6
-      engine.io-client: 6.5.4
+      engine.io-client: 6.5.4(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       socket.io-parser: 4.2.4
     transitivePeerDependencies:
       - bufferutil
@@ -11023,6 +11097,16 @@ snapshots:
     dependencies:
       '@socket.io/component-emitter': 3.1.2
       debug: 4.3.6
+    transitivePeerDependencies:
+      - supports-color
+
+  sockjs-client@1.6.1:
+    dependencies:
+      debug: 3.2.7
+      eventsource: 2.0.2
+      faye-websocket: 0.11.4
+      inherits: 2.0.4
+      url-parse: 1.5.10
     transitivePeerDependencies:
       - supports-color
 
@@ -11536,6 +11620,11 @@ snapshots:
       querystringify: 2.2.0
       requires-port: 1.0.0
 
+  utf-8-validate@5.0.10:
+    dependencies:
+      node-gyp-build: 4.8.2
+    optional: true
+
   util-deprecate@1.0.2: {}
 
   util@0.10.4:
@@ -11824,6 +11913,14 @@ snapshots:
 
   webpack-virtual-modules@0.6.2: {}
 
+  websocket-driver@0.7.4:
+    dependencies:
+      http-parser-js: 0.5.8
+      safe-buffer: 5.2.1
+      websocket-extensions: 0.1.4
+
+  websocket-extensions@0.1.4: {}
+
   whatwg-encoding@1.0.5:
     dependencies:
       iconv-lite: 0.4.24
@@ -11907,9 +12004,15 @@ snapshots:
       imurmurhash: 0.1.4
       signal-exit: 4.1.0
 
-  ws@7.5.10: {}
+  ws@7.5.10(bufferutil@4.0.8)(utf-8-validate@5.0.10):
+    optionalDependencies:
+      bufferutil: 4.0.8
+      utf-8-validate: 5.0.10
 
-  ws@8.17.1: {}
+  ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@5.0.10):
+    optionalDependencies:
+      bufferutil: 4.0.8
+      utf-8-validate: 5.0.10
 
   xe-utils@3.5.28: {}
 

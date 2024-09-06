@@ -95,16 +95,12 @@ export function useSsh() {
     formRef.resetFields();
     getHostInfoList();
   }
-  function connecTion(data) {
-
-  }
 
   return {
     columns,
     getHostInfoList,
     dataList,
     loading,
-    resetForm,
-    connection: connecTion
+    resetForm
   };
 }
