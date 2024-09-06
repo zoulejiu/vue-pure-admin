@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, onUnmounted, ref, toRaw } from "vue";
+import { onBeforeUnmount, onMounted, ref, toRaw } from "vue";
 
 import type { LoadingInstance } from "element-plus/lib/components/loading/src/loading.js";
-import { ElLoading, ElMessage, ElMessageBox } from "element-plus";
+import { ElLoading, ElMessage } from "element-plus";
 import "@xterm/xterm/css/xterm.css";
 import { type WsOptions, TermClient } from "@/utils/terminal/xtermUtil";
 import { createMonacoEditor } from "@/utils/terminal/monacoEditorUtils";
 import "monaco-editor/esm/vs/basic-languages/shell/shell.contribution";
+import { Refresh } from "@element-plus/icons-vue";
 
 const props = defineProps({ id: Number, type: String });
 
