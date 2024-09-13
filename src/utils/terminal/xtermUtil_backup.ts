@@ -220,8 +220,55 @@ export class TermClient {
       this.sendInit(wsParam);
     });
     const rev = (data: IMessage) => {
-      console.log("rev:" + data.body.toString());
-      this.terminal.write(data.body);
+      console.log("rv:" + data.body);
+      debugger;
+      if (this.wsStatus === "init") {
+        // ws连接初始化的响应消息
+        this.rowPrefixStr = data.body;
+        this.terminal.write(data.body);
+      } else if (this.wsStatus === "reqStart") {
+        this.wsStatus = "resIng";
+        if (this.isViMode) {
+          // vi模式
+          this.handleViModeMsg(data.body);
+          return;
+        }
+
+        if (this.isEditorSave) {
+          this.handleEditorSaveMsg(data.body);
+        }
+
+        // 发完命令后第一条响应：去除开头命令字符串
+        if (data.body.startsWith(this.rowCommand)) {
+          let tempStr = data.body;
+          tempStr = tempStr.replace(
+            new RegExp(`(^${this.rowCommand})`, "gm"),
+            ""
+          );
+
+          // 末尾有前缀，则换行处理
+          if (data.body.includes(this.rowPrefixStr.trim())) {
+            tempStr = tempStr.replace(
+              new RegExp(`(^${this.rowPrefixStr})`, "gm"),
+              "\n\r"
+            );
+          }
+
+          // cd 开头，获取前缀
+          if (this.rowCommand?.startsWith("cd")) {
+            this.rowPrefixStr = tempStr;
+          }
+
+          tempStr && this.terminal.write(`${tempStr}`);
+        }
+      } else if (this.wsStatus === "resIng") {
+        if (this.isViMode) {
+          // vi模式
+          this.handleViModeMsg(data.body);
+        } else {
+          this.terminal.write(`${data.body}`);
+        }
+      }
     };
   }
 
